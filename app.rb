@@ -18,7 +18,10 @@ module Lorry
       disable :static
     end
 
-    use Lorry::Routes::Base
+    use Lorry::Routes::Images
+    use Lorry::Routes::Validation
+    use Lorry::Routes::Documents
+    use Lorry::Routes::Keys
   end
 end
 

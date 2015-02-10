@@ -6,21 +6,34 @@ module Lorry
         headers 'Content-Type' => 'application/json'
       end
 
-      get "/images" do
-        status 200
+      before do
+        @payload = symbolize_keys(JSON.parse(request.body.read)) rescue nil
       end
 
-      get "/keys" do
-        status 200
+      configure do
+        set show_exceptions: false
       end
 
-      post "/validation" do
-        status 201
+      error ArgumentError do
+        [422, {'Content-Type' => 'application/json'}, { error: env['sinatra.error'].message }.to_json ]
       end
 
-      post "/document" do
-        status 201
+      private
+
+      def symbolize_keys(obj)
+        case obj
+        when Array
+          obj.map { |item| symbolize_keys(item) }
+        when Hash
+          obj.each_with_object({}) do |(key, value), h|
+            h[key.to_sym] = symbolize_keys(value)
+          end
+        else
+          obj
+        end
       end
+
+
     end
   end
 end
