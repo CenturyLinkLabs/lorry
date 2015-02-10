@@ -1,13 +1,11 @@
+require 'json'
+
 module Lorry
   module Routes
     class Base < Sinatra::Application
 
       before do
         headers 'Content-Type' => 'application/json'
-      end
-
-      before do
-        @payload = symbolize_keys(JSON.parse(request.body.read)) rescue nil
       end
 
       configure do

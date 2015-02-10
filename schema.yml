@@ -1,0 +1,69 @@
+type: map
+mapping:
+  =:
+    type: map
+    mapping:
+      "image":
+      "build":
+      "command":
+      "links":
+        type: seq
+        sequence:
+          - type: str
+      "external_links":
+        type: seq
+        sequence:
+          - type: str
+      "ports":
+        type: seq
+        sequence:
+          - type: text
+      "expose":
+        type: seq
+        sequence:
+          - type: text
+      "volumes":
+        type: seq
+        sequence:
+          - type: str
+      "volumes_from":
+        type: seq
+        sequence:
+          - type: str
+      "environment": # need to handle sequence OR map.  validator hook?
+        type: seq
+        sequence:
+          - type: str
+      "env_file":
+        type: seq
+        sequence:
+          - type: str
+      "net":
+        type: seq
+        sequence:
+          - type: str
+      "dns":
+        type: any # need to handle sequence OR str
+      "cap_add":
+        type: seq
+        sequence:
+          - type: str
+      "cap_drop":
+        type: seq
+        sequence:
+          - type: str
+      "dns_search":
+        type: any # need to handle sequence OR str
+      "working_dir":
+      "entrypoint":
+      "user":
+      "hostname":
+      "domainname":
+      "mem_limit":
+        type: int
+      "privileged":
+      "restart":
+      "stdin_open":
+      "tty":
+      "cpu_shares":
+        type: int
