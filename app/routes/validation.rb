@@ -9,14 +9,23 @@ module Lorry
       end
 
       namespace '/validation' do
+        options do
+          status 200
+        end
+
         post do
-          document = @payload[:document]
-          @validation = Lorry::Models::Validation.new(document)
-          json(status: validation_status, errors: validation_errors)
+          @document = @payload[:document]
+          @validation = Lorry::Models::Validation.new(@document)
+          json(lines: document_lines, status: validation_status, errors: validation_errors)
         end
       end
 
       private
+
+      def document_lines
+        sio = StringIO.new(@document)
+        sio.readlines
+      end
 
       def validation_errors
         Array(@validation.errors).map do |e|

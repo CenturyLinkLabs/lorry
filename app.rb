@@ -16,6 +16,7 @@ module Lorry
     configure do
       disable :method_override
       disable :static
+      set :protection, except: :http_origin
     end
 
     use Lorry::Routes::Images

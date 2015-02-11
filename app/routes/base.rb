@@ -5,7 +5,10 @@ module Lorry
     class Base < Sinatra::Application
 
       before do
-        headers 'Content-Type' => 'application/json'
+        content_type :json
+        headers 'Access-Control-Allow-Origin' => '*',
+                'Access-Control-Allow-Methods' => ['OPTIONS', 'GET', 'POST'],
+                'Access-Control-Allow-Headers' => 'Content-Type'
       end
 
       configure do
