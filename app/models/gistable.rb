@@ -33,7 +33,7 @@ module Lorry
         end
 
         # create a new gist
-        response = github_client.create_gist(options) if options
+        response = github_client.create_gist(options)
         response[:html_url]
       end
 
