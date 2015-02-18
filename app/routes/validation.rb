@@ -4,11 +4,12 @@ module Lorry
   module Routes
     class Validation < Base
 
-      before do
-        @payload = symbolize_keys(JSON.parse(request.body.read)) rescue nil
-      end
-
       namespace '/validation' do
+
+        before do
+          @payload = symbolize_keys(JSON.parse(request.body.read)) rescue nil
+        end
+
         options do
           status 200
         end
