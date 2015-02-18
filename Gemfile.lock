@@ -1,12 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.3.7)
     backports (3.6.4)
     diff-lcs (1.2.5)
-    its (0.2.0)
-      rspec-core
+    faraday (0.9.1)
+      multipart-post (>= 1.2, < 3)
     kwalify (0.7.2)
     multi_json (1.10.1)
+    multipart-post (2.0.0)
+    octokit (3.2.0)
+      sawyer (~> 0.5.3)
     rack (1.6.0)
     rack-protection (1.5.3)
       rack
@@ -25,6 +29,9 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.1)
+    sawyer (0.5.5)
+      addressable (~> 2.3.5)
+      faraday (~> 0.8, < 0.10)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -42,8 +49,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  its
   kwalify (~> 0.7.2)
-  rspec
+  octokit (= 3.2.0)
+  rspec (~> 3.0)
   sinatra
   sinatra-contrib
