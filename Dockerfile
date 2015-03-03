@@ -5,4 +5,4 @@ ADD . /temp
 WORKDIR /temp
 RUN bundle install --without development
 EXPOSE 9292
-CMD bundle exec rackup -E production
+CMD bundle exec rackup -o 0.0.0.0
