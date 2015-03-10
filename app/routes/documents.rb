@@ -25,6 +25,19 @@ module Lorry
           status 200
           json Document.from_gist_by_id(params[:gist_id])
         end
+
+        options '/export' do
+          status 200
+        end
+
+        post '/export' do
+          unless @payload && @payload[:document]
+            halt status 422
+          end
+          headers 'Content-Type' => 'text/plain'
+          status 200
+          @payload[:document]
+        end
       end
 
     end
