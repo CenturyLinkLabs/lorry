@@ -85,4 +85,33 @@ describe Lorry::Routes::Documents do
     end
 
   end
+
+  describe 'POST /documents/export' do
+
+    context 'when the request has no document defined in the json body' do
+      it 'returns a response with status code 422' do
+        response = post '/documents/export'
+        expect(response.status).to be 422
+      end
+    end
+
+    context 'when the request has a document defined in the json body' do
+      let(:request_body) { { document: 'test' }.to_json }
+
+      it 'returns a response with status code 200' do
+        response = post '/documents/export', request_body
+        expect(response.status).to be 200
+      end
+
+      it 'returns a response with a content type of "text/plain"' do
+        response = post '/documents/export', request_body
+        expect(response.content_type).to eq 'text/plain'
+      end
+
+      it 'returns the document in the response body' do
+        response = post '/documents/export', request_body
+        expect(response.body).to eq 'test'
+      end
+    end
+  end
 end
