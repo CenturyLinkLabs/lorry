@@ -2,13 +2,11 @@ module Lorry
   module Models
     class Validation
 
-      @@schema = Kwalify::Yaml.load_file(File.expand_path('schema.yml'))
-      @@validator = Kwalify::Validator.new(@@schema)
-
       def initialize(document)
-        @parser = Kwalify::Yaml::Parser.new(@@validator)
-        @doc = document
-        @parsed_doc = @parser.parse(@doc) if @doc
+        validator = ComposeValidator.new
+        validator.services = YAML.load(document).keys
+        @parser = Kwalify::Yaml::Parser.new(validator)
+        @parser.parse(document) if document
       rescue Kwalify::SyntaxError => e
         raise ArgumentError.new(e.message)
       end
