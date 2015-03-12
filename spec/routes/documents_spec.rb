@@ -41,6 +41,10 @@ describe Lorry::Routes::Documents do
         expect(last_response.status).to eql(201)
       end
 
+      it 'adds the gist location to the response body' do
+        response = post '/documents', request_body.to_json
+        expect(JSON.parse(response.body)).to eq({ 'links' => { 'gist' => { 'href' => 'https://gist.github.com/1111' } } })
+      end
     end
 
     context 'when params are invalid' do

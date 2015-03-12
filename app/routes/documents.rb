@@ -20,6 +20,7 @@ module Lorry
             html_url = Lorry::Models::Document.to_gist(gist_options(gist_content))
             headers 'Location' => html_url
             status 201
+            { links: { gist: { href: html_url } } }.to_json
           rescue Octokit::UnprocessableEntity
             status 422
           end
