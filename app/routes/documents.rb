@@ -15,9 +15,9 @@ module Lorry
         end
 
         post do
-          file = @payload[:file]
+          gist_content = @payload[:document]
           begin
-            html_url = Lorry::Models::Document.to_gist(file)
+            html_url = Lorry::Models::Document.to_gist(gist_options(gist_content))
             headers 'Location' => html_url
             status 201
           rescue Octokit::UnprocessableEntity
@@ -31,6 +31,16 @@ module Lorry
         end
       end
 
+      private
+
+      def gist_options(content)
+        {}.tap do |gist_options|
+          gist_options[:description] = 'compose.yml created at Lorry.io'
+          gist_options[:public] = 'false'
+          gist_options[:file_name] = 'compose.yml'
+          gist_options[:file_content] = content
+        end
+      end
     end
   end
 end

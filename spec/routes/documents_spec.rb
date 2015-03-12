@@ -12,21 +12,22 @@ describe Lorry::Routes::Documents do
   describe 'POST /documents' do
 
     context 'when params are valid' do
-      let(:request_body) do
-        {
-            file: {
-                file_name: "test.yaml",
-                file_content: "this is a sample yaml file."
-            }
-        }
-      end
+      let(:request_body) { { document: "this is a sample yaml file." } }
+      let(:gist_options) {
+        {}.tap do |gist_options|
+          gist_options[:description] = 'compose.yml created at Lorry.io'
+          gist_options[:public] = 'false'
+          gist_options[:file_name] = 'compose.yml'
+          gist_options[:file_content] = request_body[:document]
+        end
+      }
 
       before do
-        allow(Document).to receive(:to_gist).with(request_body[:file]).and_return('https://gist.github.com/1111')
+        allow(Document).to receive(:to_gist).with(gist_options).and_return('https://gist.github.com/1111')
       end
 
       it 'creates a new document' do
-        expect(Document).to receive(:to_gist).with(request_body[:file]).exactly(:once)
+        expect(Document).to receive(:to_gist).with(gist_options).exactly(:once)
         post '/documents', request_body.to_json
       end
 
@@ -50,7 +51,7 @@ describe Lorry::Routes::Documents do
       end
 
       before do
-        allow(Document).to receive(:to_gist).with(request_body[:file]).and_raise(Octokit::UnprocessableEntity)
+        allow(Document).to receive(:to_gist).and_raise(Octokit::UnprocessableEntity)
       end
 
       it 'status to be 422' do
