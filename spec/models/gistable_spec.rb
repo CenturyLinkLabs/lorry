@@ -61,23 +61,30 @@ describe Gistable do
   describe 'save gist' do
     let(:options) do
       {
-          description: 'compose.yml created at Lorry.io',
-          public: 'false',
+          description: 'description',
+          public: true,
           files: {
-             'compose.yml' => {
+            'test.md' => {
               content: 'this is a sample file'
             }
           }
       }
     end
-    let(:gist_content) { 'this is a sample file' }
+    let(:params) do
+      {
+          file_name: 'test.md',
+          file_content: 'this is a sample file',
+          description: 'description',
+          public: true
+      }
+    end
 
     before do
       allow(fake_gh_client).to receive(:create_gist).with(options).and_return({html_url: 'https://gist.github.com/2222'})
     end
 
     it 'should create a new gist and return the url' do
-      resp = subject.to_gist(gist_content)
+      resp = subject.to_gist(params)
       expect(resp).to eql('https://gist.github.com/2222')
     end
 

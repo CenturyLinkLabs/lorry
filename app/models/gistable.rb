@@ -20,11 +20,17 @@ module Lorry
         doc.to_hash
       end
 
-      def to_gist(gist_content)
+      def to_gist(params)
         options = {}
-        options[:description] = 'compose.yml created at Lorry.io'
-        options[:public] = 'false'
-        options[:files] = { 'compose.yml' => { content: gist_content } }
+        options[:description] = params[:description]
+        options[:public]      = params[:public] || true
+        if params[:file_name] && params[:file_content]
+          options[:files] = {
+            params[:file_name] => {
+                :content => params[:file_content]
+            }
+          }
+        end
 
         # create a new gist
         response = github_client.create_gist(options)
