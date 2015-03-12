@@ -2,6 +2,7 @@ type: map
 mapping:
   =:
     type: map
+    name: Service
     mapping:
       "image":
       "build":
@@ -10,6 +11,7 @@ mapping:
         type: seq
         sequence:
           - type: str
+            name: Link
       "external_links":
         type: seq
         sequence:
@@ -30,10 +32,9 @@ mapping:
         type: seq
         sequence:
           - type: str
-      "environment": # need to handle sequence OR map.  validator hook?
-        type: seq
-        sequence:
-          - type: str
+      "environment":
+        name: Environment
+        type: any
       "env_file":
         type: seq
         sequence:
@@ -43,7 +44,8 @@ mapping:
         sequence:
           - type: str
       "dns":
-        type: any # need to handle sequence OR str
+        name: DNS
+        type: any
       "cap_add":
         type: seq
         sequence:
@@ -53,7 +55,8 @@ mapping:
         sequence:
           - type: str
       "dns_search":
-        type: any # need to handle sequence OR str
+        name: Search
+        type: any
       "working_dir":
       "entrypoint":
       "user":

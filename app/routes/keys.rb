@@ -4,7 +4,7 @@ module Lorry
 
       namespace '/keys' do
         get do
-          schema = YAML.load_file(File.expand_path('schema.yml'))
+          schema = Lorry::Models::ComposeValidator.schema
           @keys = schema['mapping']['=']['mapping'].keys
           status 200
           @keys.to_json
