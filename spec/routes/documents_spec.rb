@@ -2,6 +2,13 @@ require 'spec_helper'
 
 describe Lorry::Routes::Documents do
 
+  describe 'OPTIONS /documents' do
+    it 'returns a response with status code 200' do
+      response = options '/documents'
+      expect(response.status).to be 200
+    end
+  end
+
   describe 'POST /documents' do
 
     context 'when params are valid' do

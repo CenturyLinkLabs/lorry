@@ -10,6 +10,10 @@ module Lorry
           @payload = symbolize_keys(JSON.parse(request.body.read)) rescue nil
         end
 
+        options do
+          status 200
+        end
+
         post do
           file = @payload[:file]
           begin
