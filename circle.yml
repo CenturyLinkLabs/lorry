@@ -10,3 +10,10 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push centurylink/lorry-api:qa
       - ssh root@$QA_SERVER_IP "./lorry_api.sh"
+  Production:
+    branch: release
+    commands:
+      - docker build -t centurylink/lorry-api:latest .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push centurylink/lorry-api:latest
+      - ssh root@$PRO_SERVER_IP "./lorry_api.sh"
