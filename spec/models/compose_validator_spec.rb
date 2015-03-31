@@ -47,8 +47,18 @@ describe ComposeValidator do
         expect(errors.first.message).to eq 'undefined_service references an undefined service'
       end
 
+      it 'adds an error when a linked to service with an alias is undefined' do
+        subject.validate_hook('undefined_service:DB_1', rule, path, errors)
+        expect(errors.first.message).to eq 'undefined_service references an undefined service'
+      end
+
       it 'does not add an error when the linked to service is defined' do
         subject.validate_hook('linky', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add an error when the linked to service is defined with an alias' do
+        subject.validate_hook('linky:DB_1', rule, path, errors)
         expect(errors).to be_empty
       end
 

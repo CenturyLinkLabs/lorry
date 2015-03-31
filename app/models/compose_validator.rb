@@ -24,6 +24,7 @@ module Lorry
             errors << Kwalify::ValidationError.new('service must include image or build', path)
           end
         when 'Link'
+          value = value.to_s.split(':').first
           unless services.include?(value)
             errors << Kwalify::ValidationError.new("#{value} references an undefined service", path)
           end
