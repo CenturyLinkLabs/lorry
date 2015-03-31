@@ -11,6 +11,12 @@ module Lorry
           body response.body
         end
 
+        get '/tags/:reponame' do
+          response = Lorry::Models::Registry.list_tags(nil, params[:reponame])
+          status response.code
+          body response.body
+        end
+
         get '/tags/:username/:reponame' do
           response = Lorry::Models::Registry.list_tags(params[:username], params[:reponame])
           status response.code

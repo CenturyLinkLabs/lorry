@@ -77,19 +77,38 @@ describe Lorry::Routes::Images do
         allow(Registry).to receive(:list_tags).and_return(response)
       end
 
-      it 'calls the Registry tags api with correct params' do
-        expect(Registry).to receive(:list_tags).with('foo', 'bar').exactly(:once)
-        get '/images/tags/foo/bar'
+      context 'when image has namespace and repository' do
+        it 'calls the Registry tags api with correct params' do
+          expect(Registry).to receive(:list_tags).with('foo', 'bar').exactly(:once)
+          get '/images/tags/foo/bar'
+        end
+
+        it 'returns a success status code' do
+          get '/images/tags/foo/bar'
+          expect(last_response.status).to eql(200)
+        end
+
+        it 'returns the matching images' do
+          get '/images/tags/foo/bar'
+          expect(JSON.parse(last_response.body).count).to eql(2)
+        end
       end
 
-      it 'returns a success status code' do
-        get '/images/tags/foo/bar'
-        expect(last_response.status).to eql(200)
-      end
+      context 'when image has only repository' do
+        it 'calls the Registry tags api with correct params' do
+          expect(Registry).to receive(:list_tags).with(nil, 'bar').exactly(:once)
+          get '/images/tags/bar'
+        end
 
-      it 'returns the matching images' do
-        get '/images/tags/foo/bar'
-        expect(JSON.parse(last_response.body).count).to eql(2)
+        it 'returns a success status code' do
+          get '/images/tags/bar'
+          expect(last_response.status).to eql(200)
+        end
+
+        it 'returns the matching images' do
+          get '/images/tags/bar'
+          expect(JSON.parse(last_response.body).count).to eql(2)
+        end
       end
     end
 
