@@ -4,7 +4,9 @@ module Lorry
 
       def initialize(document)
         validator = ComposeValidator.new
-        validator.services = YAML.load(document).keys
+        if yaml = YAML.load(document)
+          validator.services = yaml.keys if yaml.respond_to?(:keys)
+        end
         @parser = Kwalify::Yaml::Parser.new(validator)
         @parser.parse(document) if document
       rescue Kwalify::SyntaxError => e
@@ -12,7 +14,11 @@ module Lorry
       end
 
       def errors
-        @parser.errors unless Array(@parser.errors).empty?
+        @parser.errors.map { |err| err if err.instance_of? Kwalify::ValidationError }.compact
+      end
+
+      def warnings
+        @parser.errors.map { |err| err if err.instance_of? Lorry::Errors::ComposeValidationWarning }.compact
       end
     end
   end

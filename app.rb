@@ -8,6 +8,7 @@ $: << File.expand_path('../', __FILE__)
 # Require base
 require 'sinatra/base'
 
+require 'app/errors'
 require 'app/models'
 require 'app/routes'
 

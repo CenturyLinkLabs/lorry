@@ -17,7 +17,12 @@ module Lorry
         post do
           @document = @payload[:document]
           @validation = Lorry::Models::Validation.new(@document)
-          json(lines: document_lines, status: validation_status, errors: validation_errors)
+          json(
+            lines: document_lines,
+            status: validation_status,
+            errors: validation_errors,
+            warnings: validation_warnings
+          )
         end
       end
 
@@ -31,6 +36,12 @@ module Lorry
       def validation_errors
         Array(@validation.errors).map do |e|
           { error: { message: e.message, line: e.linenum, column: e.column } }
+        end
+      end
+
+      def validation_warnings
+        Array(@validation.warnings).map do |w|
+          { warning: { message: w.message, line: w.linenum, column: w.column } }
         end
       end
 
