@@ -15,9 +15,9 @@ describe Lorry::Routes::Documents do
       let(:request_body) { { document: "this is a sample yaml file." } }
       let(:gist_options) {
         {}.tap do |gist_options|
-          gist_options[:description] = 'compose.yml created at Lorry.io'
+          gist_options[:description] = 'docker-compose.yml created at Lorry.io'
           gist_options[:public] = 'false'
-          gist_options[:file_name] = 'compose.yml'
+          gist_options[:file_name] = 'docker-compose.yml'
           gist_options[:file_content] = request_body[:document]
         end
       }

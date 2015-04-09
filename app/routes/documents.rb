@@ -36,9 +36,9 @@ module Lorry
 
       def gist_options(content)
         {}.tap do |gist_options|
-          gist_options[:description] = 'compose.yml created at Lorry.io'
+          gist_options[:description] = 'docker-compose.yml created at Lorry.io'
           gist_options[:public] = 'false'
-          gist_options[:file_name] = 'compose.yml'
+          gist_options[:file_name] = 'docker-compose.yml'
           gist_options[:file_content] = content
         end
       end
