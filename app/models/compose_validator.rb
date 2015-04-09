@@ -23,6 +23,11 @@ module Lorry
           unless value.include?('image') || value.include?('build')
             errors << Kwalify::ValidationError.new('service must include image or build', path)
           end
+        when 'Image'
+          value = value.to_s.strip
+          if value.empty?
+            errors << Lorry::Errors::ComposeValidationWarning.new("image should not be blank", path)
+          end
         when 'Link'
           value = value.to_s.split(':').first
           unless services.include?(value)

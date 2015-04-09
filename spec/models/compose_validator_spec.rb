@@ -32,6 +32,29 @@ describe ComposeValidator do
 
     end
 
+    context 'when enforcing the Image rule' do
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'Image') }
+      let(:path) { [] }
+
+      it 'adds a warning if image is blank' do
+        subject.validate_hook('  ', rule, path, errors)
+        expect(errors.first.message).to eq ('image should not be blank')
+        expect(errors.first).to be_a Lorry::Errors::ComposeValidationWarning
+      end
+
+      it 'adds a warning if image is nil' do
+        subject.validate_hook(nil, rule, path, errors)
+        expect(errors.first.message).to eq ('image should not be blank')
+      end
+
+      it 'does not add a warning if image is not blank' do
+        subject.validate_hook('    asdf    ', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+    end
+
     context 'when enforcing the Link rule' do
 
       let(:errors) { [] }

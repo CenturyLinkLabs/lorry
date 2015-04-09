@@ -6,6 +6,7 @@ mapping:
     name: Service
     mapping:
       "image":
+        name: Image
         desc: |
           Tag or partial image ID. Can be local or remote - Compose will attempt to pull if it doesn't exist locally.
         required: false
