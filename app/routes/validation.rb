@@ -46,7 +46,7 @@ module Lorry
       end
 
       def validation_status
-        @validation.errors ? 'invalid' : 'valid'
+        Array(@validation.errors).empty? ? 'valid' : 'invalid'
       end
     end
   end

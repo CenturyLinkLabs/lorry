@@ -2,16 +2,12 @@ module Lorry
   module Models
     class ComposeValidator < Kwalify::Validator
 
-      @@schema = YAML.load_file(File.expand_path('schema.yml'))
-
       attr_accessor :services
+      attr_reader :schema
 
       def initialize
-        super @@schema
-      end
-
-      def self.schema
-        @@schema
+        @schema = YAML.load_file(File.expand_path('schema.yml'))
+        super @schema
       end
 
       def validate_hook(value, rule, path, errors)

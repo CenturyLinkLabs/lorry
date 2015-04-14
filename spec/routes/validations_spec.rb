@@ -25,7 +25,7 @@ describe Lorry::Routes::Validation do
 
     it 'returns a JSON object with a status indicator' do
       response = post '/validation', request_body
-      expect(JSON.parse(response.body)['status']).to eq 'invalid'
+      expect(JSON.parse(response.body)['status']).to eq 'valid'
     end
 
     it 'returns a JSON object with an array of errors' do
