@@ -4,6 +4,8 @@ module Lorry
   module Routes
     class Documents < Base
 
+      DOCUMENT_NAME = 'docker-compose.yml'
+
       namespace '/documents' do
 
         before do
@@ -17,10 +19,12 @@ module Lorry
         post do
           gist_content = @payload[:document]
           begin
-            html_url = Lorry::Models::Document.to_gist(gist_options(gist_content))
+            gist_response = Lorry::Models::Document.to_gist(gist_options(gist_content))
+            html_url = gist_response[:html_url]
+            raw_url = gist_response[:files][DOCUMENT_NAME][:raw_url]
             headers 'Location' => html_url
             status 201
-            { links: { gist: { href: html_url } } }.to_json
+            { links: { gist: { href: html_url, raw_url: raw_url } } }.to_json
           rescue Octokit::UnprocessableEntity
             status 422
           end
@@ -36,9 +40,9 @@ module Lorry
 
       def gist_options(content)
         {}.tap do |gist_options|
-          gist_options[:description] = 'docker-compose.yml created at Lorry.io'
+          gist_options[:description] = "#{DOCUMENT_NAME} created at Lorry.io"
           gist_options[:public] = 'false'
-          gist_options[:file_name] = 'docker-compose.yml'
+          gist_options[:file_name] = DOCUMENT_NAME
           gist_options[:file_content] = content
         end
       end

@@ -13,17 +13,35 @@ describe Lorry::Routes::Documents do
 
     context 'when params are valid' do
       let(:request_body) { { document: "this is a sample yaml file." } }
-      let(:gist_options) {
+      let(:gist_options) do
         {}.tap do |gist_options|
           gist_options[:description] = 'docker-compose.yml created at Lorry.io'
           gist_options[:public] = 'false'
           gist_options[:file_name] = 'docker-compose.yml'
           gist_options[:file_content] = request_body[:document]
         end
-      }
+      end
+      let(:to_gist_response) do
+        {
+          html_url: 'https://gist.github.com/1111',
+          files: { 'docker-compose.yml' => { raw_url: 'http://gist.githubusercontent.com/raw/1111' } }
+        }
+      end
+      let(:response_body) do
+        {
+          'links' =>
+            {
+              'gist' =>
+                {
+                  'href' => 'https://gist.github.com/1111',
+                  'raw_url' => 'http://gist.githubusercontent.com/raw/1111'
+                }
+            }
+        }
+      end
 
       before do
-        allow(Document).to receive(:to_gist).with(gist_options).and_return('https://gist.github.com/1111')
+        allow(Document).to receive(:to_gist).with(gist_options).and_return(to_gist_response)
       end
 
       it 'creates a new document' do
@@ -41,9 +59,9 @@ describe Lorry::Routes::Documents do
         expect(last_response.status).to eql(201)
       end
 
-      it 'adds the gist location to the response body' do
+      it 'adds the gist location and raw uri to the response body' do
         response = post '/documents', request_body.to_json
-        expect(JSON.parse(response.body)).to eq({ 'links' => { 'gist' => { 'href' => 'https://gist.github.com/1111' } } })
+        expect(JSON.parse(response.body)).to eq(response_body)
       end
     end
 

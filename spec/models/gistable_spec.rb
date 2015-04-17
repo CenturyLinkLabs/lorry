@@ -83,9 +83,9 @@ describe Gistable do
       allow(fake_gh_client).to receive(:create_gist).with(options).and_return({html_url: 'https://gist.github.com/2222'})
     end
 
-    it 'should create a new gist and return the url' do
+    it 'should create and return a new gist' do
       resp = subject.to_gist(params)
-      expect(resp).to eql('https://gist.github.com/2222')
+      expect(resp).to eql(html_url: 'https://gist.github.com/2222')
     end
 
   end
