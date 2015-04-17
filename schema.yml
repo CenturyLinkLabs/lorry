@@ -7,22 +7,22 @@ mapping:
     mapping:
       "image":
         name: Image
-        desc: |
+        desc: >
           Tag or partial image ID. Can be local or remote - Compose will attempt to pull if it doesn't exist locally.
         required: false
       "build":
-        desc: |
+        desc: >
           Path to a directory containing a Dockerfile. This directory is also the build context that is sent to the
           Docker daemon.
 
           Compose will build and tag it with a generated name, and use that image thereafter.
         required: false
       "command":
-        desc: |
+        desc: >
           Override the default command.
         required: false
       "links":
-        desc: |
+        desc: >
           Link to containers in another service. Either specify both the service name and the link alias
           (SERVICE:ALIAS), or just the service name (which will also be used for the alias).
         type: seq
@@ -31,7 +31,7 @@ mapping:
             name: Link
         required: false
       "external_links":
-        desc: |
+        desc: >
           Link to containers started outside this docker-compose.yml or even outside of Compose, especially for
           containers that provide shared or common services. external_links follow semantics similar to links when
           specifying both the container name and the link alias (CONTAINER:ALIAS).
@@ -40,7 +40,7 @@ mapping:
           - type: str
         required: false
       "ports":
-        desc: |
+        desc: >
           Expose ports. Either specify both ports (HOST:CONTAINER), or just the container port (a random host port will
           be chosen).
         type: seq
@@ -48,7 +48,7 @@ mapping:
           - type: text
         required: false
       "expose":
-        desc: |
+        desc: >
           Expose ports without publishing them to the host machine - they'll only be accessible to linked services. Only
           the internal port can be specified.
         type: seq
@@ -56,7 +56,7 @@ mapping:
           - type: text
         required: false
       "volumes":
-        desc: |
+        desc: >
           Mount paths as volumes, optionally specifying a path on the host machine (HOST:CONTAINER), or an access mode
           (HOST:CONTAINER:ro).
         type: seq
@@ -64,7 +64,7 @@ mapping:
           - type: str
         required: false
       "volumes_from":
-        desc: |
+        desc: >
           Mount all of the volumes from another service or container.
         type: seq
         sequence:
@@ -72,7 +72,7 @@ mapping:
         required: false
       "environment":
         name: Environment
-        desc: |
+        desc: >
           Add environment variables. You can use either an array or a dictionary.
 
           Environment variables with only a key are resolved to their values on the machine Compose is running on, which
@@ -80,7 +80,7 @@ mapping:
         type: any
         required: false
       "env_file":
-        desc: |
+        desc: >
           Add environment variables from a file. Can be a single value or a list.
 
           If you have specified a Compose file with docker-compose -f FILE, paths in env_file are relative to the
@@ -92,7 +92,7 @@ mapping:
           - type: str
         required: false
       "extends":
-        desc: |
+        desc: >
           Extend another service, in the current file or another, optionally overriding configuration.
         type: map
         mapping:
@@ -102,14 +102,14 @@ mapping:
             required: true
         required: false
       "labels":
-        desc: |
+        desc: >
           Add metadata to containers using Docker labels.
         type: seq
         sequence:
           - type: str
         required: false
       "net":
-        desc: |
+        desc: >
           Networking mode. Use the same values as the docker client --net parameter.
         type: seq
         sequence:
@@ -117,19 +117,19 @@ mapping:
         required: false
       "dns":
         name: DNS
-        desc: |
+        desc: >
           Custom DNS servers. Can be a single value or a list.
         type: any
         required: false
       "cap_add":
-        desc: |
+        desc: >
           Add container capabilities. See man 7 capabilities for a full list.
         type: seq
         sequence:
           - type: str
         required: false
       "cap_drop":
-        desc: |
+        desc: >
           Drop container capabilities. See man 7 capabilities for a full list.
         type: seq
         sequence:
@@ -137,50 +137,50 @@ mapping:
         required: false
       "dns_search":
         name: Search
-        desc: |
+        desc: >
           Custom DNS search domains. Can be a single value or a list.
         type: any
         required: false
       "working_dir":
-        desc: |
+        desc: >
           Working directory inside the container.
         required: false
       "entrypoint":
-        desc: |
+        desc: >
           Overwrite the default ENTRYPOINT of the image.
         required: false
       "user":
-        desc: |
+        desc: >
           Username or UID.
         required: false
       "hostname":
-        desc: |
+        desc: >
           Container host name.
         required: false
       "domainname":
-        desc: |
+        desc: >
         required: false
       "mem_limit":
-        desc: |
+        desc: >
         type: int
         required: false
       "privileged":
-        desc: |
+        desc: >
           Give extended privileges to this container
         required: false
       "restart":
-        desc: |
+        desc: >
           Restart policy to apply when a container exits (no, on-failure[:max-retry], always)
         required: false
       "stdin_open":
-        desc: |
+        desc: >
         required: false
       "tty":
-        desc: |
+        desc: >
           Allocate a pseudo-TTY
         required: false
       "cpu_shares":
-        desc: |
+        desc: >
           CPU shares (relative weight)
         required: false
         type: int
