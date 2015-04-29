@@ -41,22 +41,22 @@ mapping:
           - type: str
         required: false
       "ports":
-        name: Port
         desc: >
           Expose ports. Either specify both ports (HOST:CONTAINER), or just the container port (a random host port will
           be chosen).
         type: seq
         sequence:
           - type: text
+            name: Port
         required: false
       "expose":
-        name: Expose
         desc: >
           Expose ports without publishing them to the host machine - they'll only be accessible to linked services. Only
           the internal port can be specified.
         type: seq
         sequence:
           - type: text
+            name: Expose
         required: false
       "volumes":
         desc: >

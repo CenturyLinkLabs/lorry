@@ -29,27 +29,17 @@ module Lorry
           unless services.include?(value)
             errors << Kwalify::ValidationError.new("#{value} references an undefined service", path)
           end
-        when 'EnvFile', 'DNSSearch'
+        when 'EnvFile', 'DNSSearch', 'DNS'
           unless value.is_a?(String) || value.is_a?(Array)
             errors << Kwalify::ValidationError.new('value is not a string or sequence', path)
           end
         when 'Port'
-          if value.is_a?(Array) && !value.empty?
-            value.each { |port| validate_port_format(port, path, errors) }
+          unless value.is_a?(String) && value.empty?
+            validate_port_format(value, path, errors)
           end
         when 'Expose'
-          if value.is_a?(Array) && !value.empty?
-            value.each { |expose| validate_expose_format(expose, path, errors) }
-          end
-        when 'DNS'
-          if value.is_a?(String) && value.empty?
-            return
-          elsif value.is_a?(String)
-            validate_dns_format(value, path, errors)
-          elsif value.is_a?(Array)
-            value.each { |dns| validate_dns_format(dns, path, errors) }
-          else
-            errors << Kwalify::ValidationError.new('value is not a string or sequence', path)
+          unless value.is_a?(String) && value.empty?
+            validate_expose_format(value, path, errors)
           end
         when 'Net'
           return if value.is_a?(String) && value.empty?
@@ -76,7 +66,7 @@ module Lorry
         octet = /\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/
         port = /\d{2,6}/
 
-        parts = value.split(':')
+        parts = value.to_s.split(':')
         case parts.size
         when 3
           valid = octet.match(parts[0]) && port.match(parts[1]) && port.match(parts[2])
@@ -95,13 +85,6 @@ module Lorry
         port = /\d{2,6}/
         unless port.match(value)
           errors << Lorry::Errors::ComposeValidationWarning.new('Invalid expose format', path)
-        end
-      end
-
-      def validate_dns_format(value, path, errors)
-        octet = /\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/
-        unless octet.match(value)
-          errors << Lorry::Errors::ComposeValidationWarning.new('Invalid DNS format', path)
         end
       end
     end
