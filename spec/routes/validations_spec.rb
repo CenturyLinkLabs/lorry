@@ -41,10 +41,19 @@ describe Lorry::Routes::Validation do
     context('when the validation returns errors') do
       let(:request_body) { { document: "foo" }.to_json }
 
+      before do
+        allow(Lorry::MessageFilter).to receive(:filter)
+      end
+
       it 'the errors array contains an error object with message, line, and column attributes' do
         response = post '/validation', request_body
         errors = JSON.parse(response.body)['errors']
         expect(errors.first['error'].keys).to match_array(%w(message line column))
+      end
+
+      it 'the error message is filtered' do
+        post '/validation', request_body
+        expect(Lorry::MessageFilter).to have_received(:filter).once
       end
     end
 
@@ -57,6 +66,7 @@ describe Lorry::Routes::Validation do
 
       before do
         allow(Lorry::Models::Validation).to receive(:new).and_return(validation)
+        allow(Lorry::MessageFilter).to receive(:filter)
       end
 
       it 'the warnings array contains a warning object with message, line, and column attributes' do
@@ -64,6 +74,12 @@ describe Lorry::Routes::Validation do
         errors = JSON.parse(response.body)['warnings']
         expect(errors.first['warning'].keys).to match_array(%w(message line column))
       end
+
+      it 'the warning message is filtered' do
+        post '/validation', request_body
+        expect(Lorry::MessageFilter).to have_received(:filter).once
+      end
+
     end
   end
 
