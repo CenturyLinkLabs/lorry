@@ -63,17 +63,17 @@ module Lorry
 
       def validate_port_format(value, path, errors)
         valid = false
-        octet = /\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/
-        port = /\d{2,6}/
+        octet = /^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/
+        port = /^\d{2,6}$/
 
         parts = value.to_s.split(':')
         case parts.size
         when 3
-          valid = octet.match(parts[0]) && port.match(parts[1]) && port.match(parts[2])
+          valid = octet.match(parts[0]) && port.match(parts[1]) && port.match(parts[2]) && value.count(':') == 2
         when 2
-          valid = port.match(parts[0]) && port.match(parts[1])
+          valid = port.match(parts[0]) && port.match(parts[1]) && value.count(':') == 1
         when 1
-          valid = port.match(parts[0])
+          valid = port.match(parts[0]) && value.count(':') == 0
         end
 
         unless valid
@@ -82,7 +82,7 @@ module Lorry
       end
 
       def validate_expose_format(value, path, errors)
-        port = /\d{2,6}/
+        port = /^\d{2,6}$/
         unless port.match(value)
           errors << Lorry::Errors::ComposeValidationWarning.new('Invalid expose format', path)
         end
