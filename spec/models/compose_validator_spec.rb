@@ -162,9 +162,28 @@ describe ComposeValidator do
       let(:rule) { double('rule', name: 'Port') }
       let(:path) { [] }
 
-      it 'adds a warning when the value(s) are not in the proper format' do
+      it 'adds a ComposeValidationWarning when the value(s) are not in the proper format' do
         subject.validate_hook('not the right format', rule, path, errors)
         expect(errors.first).to be_a Lorry::Errors::ComposeValidationWarning
+      end
+
+      it 'adds a ComposeValidationWarning when parts of the value(s) are not in the proper format' do
+        subject.validate_hook('127.0.0.1blahblabh:1234:1234', rule, path, errors)
+        expect(errors.first).to be_a Lorry::Errors::ComposeValidationWarning
+      end
+
+      it 'assigns a message to the warning when the value(s) are not in the proper format' do
+        subject.validate_hook('not the right format', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid port format'
+      end
+
+      it 'adds a warning when the value is an ip address only' do
+        subject.validate_hook('127.0.0.1', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid port format'
+      end
+
+      it 'adds a warning when the value is an ip address and host port only' do
+        subject.validate_hook('127.0.0.1:1234', rule, path, errors)
         expect(errors.first.message).to eq 'Invalid port format'
       end
 

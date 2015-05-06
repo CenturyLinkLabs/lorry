@@ -63,8 +63,8 @@ module Lorry
 
       def validate_port_format(value, path, errors)
         valid = false
-        octet = /\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}/
-        port = /\d{2,6}/
+        octet = /^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$/
+        port = /^\d{2,6}$/
 
         parts = value.to_s.split(':')
         case parts.size
