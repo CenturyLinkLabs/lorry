@@ -198,7 +198,7 @@ describe ComposeValidator do
       end
 
       it 'does not add a warning when the value is in the containerPort format' do
-        subject.validate_hook('1234', rule, path, errors)
+        subject.validate_hook(1234, rule, path, errors)
         expect(errors).to be_empty
       end
     end
@@ -225,7 +225,7 @@ describe ComposeValidator do
       end
 
       it 'does not add a warning when the value is in the proper format' do
-        subject.validate_hook('1234', rule, path, errors)
+        subject.validate_hook(1234, rule, path, errors)
         expect(errors).to be_empty
       end
     end
