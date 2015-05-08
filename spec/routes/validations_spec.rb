@@ -20,7 +20,7 @@ describe Lorry::Routes::Validation do
 
     it 'returns a JSON object with an array of lines' do
       response = post '/validation', request_body
-      expect(JSON.parse(response.body)['lines']).to eq []
+      expect(JSON.parse(response.body)['lines']).to eq [" "]
     end
 
     it 'returns a JSON object with a status indicator' do
@@ -36,6 +36,14 @@ describe Lorry::Routes::Validation do
     it 'returns a JSON object with an array of warnings' do
       response = post '/validation', request_body
       expect(JSON.parse(response.body)['warnings']).to eq []
+    end
+
+    it 'adds a single space to the document before validating' do
+      # the addition of a single whitespace char at the end of the document
+      # prevents parse failure when the document ends with a key that has no value
+      validation = double('validation', warnings: nil, errors: nil)
+      expect(Lorry::Models::Validation).to receive(:new).with(' ').and_return(validation)
+      post '/validation', request_body
     end
 
     context('when the validation returns errors') do
