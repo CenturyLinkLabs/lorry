@@ -16,7 +16,7 @@ module Lorry
         end
 
         post do
-          @document = @payload[:document] + ' '
+          @document = @payload[:document] + "\n"
           @validation = Lorry::Models::Validation.new(@document)
           json(
             lines: document_lines,
