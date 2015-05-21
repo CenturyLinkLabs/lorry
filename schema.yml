@@ -160,9 +160,11 @@ mapping:
         required: false
       "domainname":
         desc: >
+          Domain name associated with your service
         required: false
       "mem_limit":
         desc: >
+          Total memory limit (memory + swap, format: <number><optional unit>, where unit = b, k, m or g)
         required: false
       "privileged":
         name: Privileged
@@ -176,6 +178,7 @@ mapping:
         required: false
       "stdin_open":
         desc: >
+          Value of true keeps STDIN open even if not attached
         required: false
       "tty":
         name: TTY
