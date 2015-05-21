@@ -163,7 +163,6 @@ mapping:
         required: false
       "mem_limit":
         desc: >
-        type: int
         required: false
       "privileged":
         name: Privileged
