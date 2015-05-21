@@ -321,6 +321,22 @@ describe ComposeValidator do
         expect(errors).to be_empty
       end
     end
+
+    context 'when enforcing the CPUShares rule' do
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'CPUShares') }
+      let(:path) { [] }
+
+      it 'adds a warning when the value is not able to be converted to an integer' do
+        subject.validate_hook('not an integer', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid value'
+      end
+
+      it 'does not add a warning when the value is capable of conversion to an integer' do
+        subject.validate_hook('50', rule, path, errors)
+        expect(errors).to be_empty
+      end
+    end
   end
 end
 

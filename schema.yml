@@ -183,7 +183,7 @@ mapping:
           Allocate a pseudo-TTY
         required: false
       "cpu_shares":
+        name: CPUShares
         desc: >
           CPU shares (relative weight)
         required: false
-        type: int

@@ -56,6 +56,12 @@ module Lorry
           unless value.start_with?("no", "on-failure:", "always")
             errors << Lorry::Errors::ComposeValidationWarning.new('Invalid value', path)
           end
+        when 'CPUShares'
+          begin
+            Integer(value)
+          rescue ArgumentError
+            errors << Lorry::Errors::ComposeValidationWarning.new('Invalid value', path)
+          end
         end
       end
 
