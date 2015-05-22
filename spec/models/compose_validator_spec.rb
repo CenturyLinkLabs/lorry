@@ -8,7 +8,17 @@ describe ComposeValidator do
 
       let(:errors) { [] }
       let(:rule) { double('rule', name: 'Service') }
-      let(:path) { [] }
+      let(:path) { ['validService123'] }   # service names are part of path
+
+      it 'adds an error if service name format is invalid' do
+        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal_7.28"], errors)
+        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-zA-Z0-9]')
+      end
+
+      it 'adds an error if service name format is invalid' do
+        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal728"], errors)
+        expect(errors).to be_empty
+      end
 
       it 'adds an error if image and build are both present' do
         subject.validate_hook({ 'image' => 'foo', 'build' => 'foo'}, rule, path, errors)

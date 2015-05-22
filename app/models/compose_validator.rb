@@ -12,7 +12,8 @@ module Lorry
 
       def validate_hook(value, rule, path, errors)
         case rule.name
-        when 'Service'
+          when 'Service'
+          validate_service_name(value, path, errors)
           if value.include?('image') && value.include?('build')
             errors << Kwalify::ValidationError.new('service must use either image or build, not both', path)
           end
@@ -91,6 +92,14 @@ module Lorry
         port = /^\d{2,6}$/
         unless port.match(value.to_s)
           errors << Lorry::Errors::ComposeValidationWarning.new('Invalid expose format', path)
+        end
+      end
+
+      def validate_service_name(value, path, errors)
+        regex = /^[a-zA-Z0-9]*$/
+        service_name = path[0]
+        unless service_name =~ regex
+          errors << Kwalify::ValidationError.new('Invalid service name. Valid characters are [a-zA-Z0-9]', path)
         end
       end
     end
