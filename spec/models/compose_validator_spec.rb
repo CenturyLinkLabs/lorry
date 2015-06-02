@@ -347,6 +347,30 @@ describe ComposeValidator do
         expect(errors).to be_empty
       end
     end
+
+    context 'when enforcing the Environment rule' do
+
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'Environment') }
+      let(:path) { [] }
+
+      it 'adds an error when the environment value is not a hash or an array' do
+        subject.validate_hook('blah', rule, path, errors)
+        expect(errors.first.message).to eq 'value is not a mapping or a sequence'
+      end
+
+      it 'does not add an error when the environment value is a hash' do
+        subject.validate_hook([foo:'bar'], rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add an error when the environment value is an array' do
+        subject.validate_hook(['foo=bar'], rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+    end
+
   end
 end
 

@@ -63,6 +63,10 @@ module Lorry
           rescue ArgumentError
             errors << Lorry::Errors::ComposeValidationWarning.new('Invalid value', path)
           end
+        when 'Environment'
+          unless value.is_a?(Array) || value.is_a?(Hash)
+            errors << Kwalify::ValidationError.new('value is not a mapping or a sequence', path)
+          end
         end
       end
 

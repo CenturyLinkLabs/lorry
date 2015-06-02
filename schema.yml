@@ -76,13 +76,11 @@ mapping:
       "environment":
         name: Environment
         desc: >
-          Add environment variables. You can use an array.
+          Add environment variables. You can use an array or a hash sequence.
 
           Environment variables with only a key are resolved to their values on the machine Compose is running on, which
           can be helpful for secret or host-specific values.
-        type: seq
-        sequence:
-          - type: str
+        type: any
         required: false
       "env_file":
         desc: >
