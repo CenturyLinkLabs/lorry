@@ -166,6 +166,29 @@ describe ComposeValidator do
       end
     end
 
+    context 'when enforcing the DNS rule' do
+
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'Command') }
+      let(:path) { [] }
+
+
+      it 'adds an error when the value is not a string or array' do
+        subject.validate_hook({}, rule, path, errors)
+        expect(errors.first.message).to eq 'value is not a string or sequence'
+      end
+
+      it 'does not add an error when the value is a string' do
+        subject.validate_hook('execute me', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add an error when the value is an array' do
+        subject.validate_hook(['execute', 'me'], rule, path, errors)
+        expect(errors).to be_empty
+      end
+    end
+
     context 'when enforcing the Port rule' do
 
       let(:errors) { [] }

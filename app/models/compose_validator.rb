@@ -30,7 +30,7 @@ module Lorry
           unless services.include?(value)
             errors << Kwalify::ValidationError.new("#{value} references an undefined service", path)
           end
-        when 'EnvFile', 'DNSSearch', 'DNS'
+        when 'EnvFile', 'DNSSearch', 'DNS', 'Command'
           unless value.is_a?(String) || value.is_a?(Array)
             errors << Kwalify::ValidationError.new('value is not a string or sequence', path)
           end
