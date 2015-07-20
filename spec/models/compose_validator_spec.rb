@@ -15,13 +15,28 @@ describe ComposeValidator do
         expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-zA-Z0-9]')
       end
 
-      it 'adds an error if service name format is invalid' do
+      it 'does not add an error if service name format is valid' do
+        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal728"], errors)
+        expect(errors).to be_empty
+      end
+
+      it 'adds an error if service name format has caps, when build is present' do
+        subject.validate_hook({'build' => 'foo'}, rule, ["Drupal728"], errors)
+        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-z0-9]')
+      end
+
+      it 'does not add an error if service name format has no caps, when build is present' do
+        subject.validate_hook({'build' => 'foo'}, rule, ["drupal728"], errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add an error if service name format has caps, when build is not present' do
         subject.validate_hook({'image' => 'foo'}, rule, ["Drupal728"], errors)
         expect(errors).to be_empty
       end
 
       it 'adds an error if image and build are both present' do
-        subject.validate_hook({ 'image' => 'foo', 'build' => 'foo'}, rule, path, errors)
+        subject.validate_hook({ 'image' => 'foo', 'build' => 'foo'}, rule, ["drupal728"], errors)
         expect(errors.first.message).to eq ('service must use either image or build, not both')
       end
 
@@ -36,7 +51,7 @@ describe ComposeValidator do
       end
 
       it 'does not add an error if build is present without image' do
-        subject.validate_hook({ 'build' => 'foo'}, rule, path, errors)
+        subject.validate_hook({ 'build' => 'foo'}, rule, ["drupal728"], errors)
         expect(errors).to be_empty
       end
 
