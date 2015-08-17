@@ -11,8 +11,8 @@ describe ComposeValidator do
       let(:path) { ['validService123'] }   # service names are part of path
 
       it 'adds an error if service name format is invalid' do
-        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal_7.28"], errors)
-        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-zA-Z0-9]')
+        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal*7$%28"], errors)
+        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-zA-Z0-9._-] but not starting with [.-_]')
       end
 
       it 'does not add an error if service name format is valid' do
@@ -20,9 +20,19 @@ describe ComposeValidator do
         expect(errors).to be_empty
       end
 
+      it 'does not add an error if service name format has . - _' do
+        subject.validate_hook({'image' => 'foo'}, rule, ["Drupal_Ser-7.28"], errors)
+        expect(errors).to be_empty
+      end
+
+      it 'adds an error if service name format starts with . - _' do
+        subject.validate_hook({'image' => 'foo'}, rule, [".-_Drupal728"], errors)
+        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-zA-Z0-9._-] but not starting with [.-_]')
+      end
+
       it 'adds an error if service name format has caps, when build is present' do
         subject.validate_hook({'build' => 'foo'}, rule, ["Drupal728"], errors)
-        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-z0-9]')
+        expect(errors.first.message).to eq ('Invalid service name. Valid characters are [a-z0-9._-] but not starting with [.-_]')
       end
 
       it 'does not add an error if service name format has no caps, when build is present' do
