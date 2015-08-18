@@ -434,6 +434,43 @@ describe ComposeValidator do
 
     end
 
+    context 'when enforcing the MACAddress rule' do
+
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'MACAddress') }
+      let(:path) { [] }
+
+      it 'adds a ComposeValidationWarning when the value(s) are not in the proper format' do
+        subject.validate_hook('not the right format', rule, path, errors)
+        expect(errors.first).to be_a Lorry::Errors::ComposeValidationWarning
+      end
+
+      it 'adds a message to the warning when the value(s) are not in the proper format' do
+        subject.validate_hook('not the right format', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid MAC address format'
+      end
+
+      it 'adds a warning when the value contains both : and -' do
+        subject.validate_hook('aa:bb:cc-dd-ee-ff', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid MAC address format'
+      end
+
+      it 'does not add a warning when the value is in the proper format (all colons)' do
+        subject.validate_hook('aa:bb:cc:dd:ee:ff', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add a warning when the value is in the proper format (all dashes)' do
+        subject.validate_hook('aa-bb-cc-dd-ee-ff', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add a warning when the value is in the proper format' do
+        subject.validate_hook('AA:b1:CC:2d:EE:f3', rule, path, errors)
+        expect(errors).to be_empty
+      end
+    end
+
   end
 end
 

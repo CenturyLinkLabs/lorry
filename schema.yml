@@ -168,6 +168,11 @@ mapping:
         desc: >
           Domain name associated with your service
         required: false
+      "mac_address":
+        name: MACAddress
+        desc: >
+          Container's Ethernet device's MAC address
+        required: false
       "mem_limit":
         desc: >
           Total memory limit (memory + swap, format: <number><optional unit>, where unit = b, k, m or g)

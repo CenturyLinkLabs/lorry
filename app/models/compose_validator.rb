@@ -47,6 +47,10 @@ module Lorry
           unless value.start_with?("bridge", "none", "container:", "host")
             errors << Lorry::Errors::ComposeValidationWarning.new('Invalid value', path)
           end
+        when 'MACAddress'
+          unless value.is_a?(String) && value.empty?
+            validate_mac_address_format(value, path, errors)
+          end
         when 'Privileged', 'TTY'
           return if value.is_a?(String) && value.empty?
           unless %w(true false).include? value
@@ -113,6 +117,14 @@ module Lorry
           end
         end
       end
+
+      def validate_mac_address_format(value, path, errors)
+        regex = /^(?:[0-9A-Fa-f]{2}([-:]))(?:[0-9A-Fa-f]{2}\1){4}[0-9A-Fa-f]{2}$/
+        unless value =~ regex
+          errors << Lorry::Errors::ComposeValidationWarning.new('Invalid MAC address format', path)
+        end
+      end
+
     end
   end
 end
