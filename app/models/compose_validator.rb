@@ -105,11 +105,11 @@ module Lorry
         service_name = path[0]
         if value.include?('build')
           unless service_name =~ regex_with_build
-            errors << Kwalify::ValidationError.new('Invalid service name. Valid characters are [a-z0-9._-] but not starting with [.-_]', path)
+            errors << Kwalify::ValidationError.new('Invalid service name. Valid characters are [a-z0-9._-] but not starting or ending with [.-_]', path)
           end
         else
           unless service_name =~ regex
-            errors << Kwalify::ValidationError.new('Invalid service name. Valid characters are [a-zA-Z0-9._-] but not starting with [.-_]', path)
+            errors << Kwalify::ValidationError.new('Invalid service name. Valid characters are [a-zA-Z0-9._-] but not starting or ending with [.-_]', path)
           end
         end
       end
