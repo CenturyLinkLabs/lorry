@@ -175,7 +175,11 @@ mapping:
         required: false
       "mem_limit":
         desc: >
-          Total memory limit (memory + swap, format: <number><optional unit>, where unit = b, k, m or g)
+          Total memory limit (format: <number><optional unit>, where unit = b, k, m or g)
+        required: false
+      "memswap_limit":
+        desc: >
+          Total memory swap limit (format: -1 or <number><optional unit>, where unit = b, k, m or g)
         required: false
       "privileged":
         name: Privileged
