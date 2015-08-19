@@ -205,3 +205,8 @@ mapping:
         desc: >
           CPU shares (relative weight)
         required: false
+      "cpuset":
+        name: CPUSet
+        desc: >
+          Set CPUs in which to allow execution for containers. ("0-3", "1,3")
+        required: false

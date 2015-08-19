@@ -206,7 +206,7 @@ describe ComposeValidator do
       end
     end
 
-    context 'when enforcing the DNS rule' do
+    context 'when enforcing the Command rule' do
 
       let(:errors) { [] }
       let(:rule) { double('rule', name: 'Command') }
@@ -469,6 +469,44 @@ describe ComposeValidator do
         subject.validate_hook('AA:b1:CC:2d:EE:f3', rule, path, errors)
         expect(errors).to be_empty
       end
+    end
+
+    context 'when enforcing the CPUSet rule' do
+
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'CPUSet') }
+      let(:path) { [] }
+
+      it 'adds a ComposeValidationWarning when the value is not in the proper format' do
+        subject.validate_hook('not the right format', rule, path, errors)
+        expect(errors.first).to be_a Lorry::Errors::ComposeValidationWarning
+      end
+
+      it 'adds a message to the warning when the value is not in the proper format' do
+        subject.validate_hook('not the right format', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid CPU set format. Valid values are 0,1 or 0-3'
+      end
+
+      it 'adds a message to the warning when the value has invalid digits (comma)' do
+        subject.validate_hook('0-100', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid CPU set format. Valid values are 0,1 or 0-3'
+      end
+
+      it 'adds a message to the warning when the value has invalid digits (dash)' do
+        subject.validate_hook('0,100', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid CPU set format. Valid values are 0,1 or 0-3'
+      end
+
+      it 'does not add a warning when the value is in the proper format (comma)' do
+        subject.validate_hook('0,2', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
+      it 'does not add a warning when the value is in the proper format (dash)' do
+        subject.validate_hook('0-2', rule, path, errors)
+        expect(errors).to be_empty
+      end
+
     end
 
   end

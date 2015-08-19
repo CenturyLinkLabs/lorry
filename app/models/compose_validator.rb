@@ -12,7 +12,7 @@ module Lorry
 
       def validate_hook(value, rule, path, errors)
         case rule.name
-          when 'Service'
+        when 'Service'
           validate_service_name(value, path, errors)
           if value.include?('image') && value.include?('build')
             errors << Kwalify::ValidationError.new('service must use either image or build, not both', path)
@@ -71,6 +71,10 @@ module Lorry
           unless value.is_a?(Array) || value.is_a?(Hash)
             errors << Kwalify::ValidationError.new('value is not a mapping or a sequence', path)
           end
+        when 'CPUSet'
+          unless value.is_a?(String) && value.empty?
+            validate_cpuset_format(value, path, errors)
+          end
         end
       end
 
@@ -122,6 +126,13 @@ module Lorry
         regex = /^(?:[0-9A-Fa-f]{2}([-:]))(?:[0-9A-Fa-f]{2}\1){4}[0-9A-Fa-f]{2}$/
         unless value =~ regex
           errors << Lorry::Errors::ComposeValidationWarning.new('Invalid MAC address format', path)
+        end
+      end
+
+      def validate_cpuset_format(value, path, errors)
+        regex = /^\d{1,2}[-,]\d{1,2}$/
+        unless value =~ regex
+          errors << Lorry::Errors::ComposeValidationWarning.new('Invalid CPU set format. Valid values are 0,1 or 0-3', path)
         end
       end
 
