@@ -509,6 +509,26 @@ describe ComposeValidator do
 
     end
 
+    context 'when enforcing the ReadOnly rule' do
+
+      let(:errors) { [] }
+      let(:rule) { double('rule', name: 'ReadOnly') }
+      let(:path) { [] }
+
+      it 'adds a warning when the value is not "true" or "false"' do
+        subject.validate_hook('other', rule, path, errors)
+        expect(errors.first.message).to eq 'Invalid value'
+      end
+
+      it 'does not add a warning when the value is "true" or "false"' do
+        subject.validate_hook('true', rule, path, errors)
+        expect(errors).to be_empty
+
+        subject.validate_hook('false', rule, path, errors)
+        expect(errors).to be_empty
+      end
+    end
+
   end
 end
 

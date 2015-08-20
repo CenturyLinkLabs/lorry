@@ -51,7 +51,7 @@ module Lorry
           unless value.is_a?(String) && value.empty?
             validate_mac_address_format(value, path, errors)
           end
-        when 'Privileged', 'TTY'
+        when 'Privileged', 'TTY', 'ReadOnly'
           return if value.is_a?(String) && value.empty?
           unless %w(true false).include? value
             errors << Lorry::Errors::ComposeValidationWarning.new('Invalid value', path)

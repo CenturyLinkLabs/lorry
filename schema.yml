@@ -210,3 +210,8 @@ mapping:
         desc: >
           Set CPUs in which to allow execution for containers. ("0-3", "1,3")
         required: false
+      "read_only":
+        name: ReadOnly
+        desc: >
+          Mount the container's root filesystem as read only
+        required: false
