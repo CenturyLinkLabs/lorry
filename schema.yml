@@ -215,3 +215,7 @@ mapping:
         desc: >
           Mount the container's root filesystem as read only
         required: false
+      "volume_driver":
+        desc: >
+          Optional volume driver for the container
+        required: false
