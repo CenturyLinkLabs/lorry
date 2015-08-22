@@ -17,6 +17,11 @@ mapping:
 
           Compose will build and tag it with a generated name, and use that image thereafter.
         required: false
+      "dockerfile":
+        desc: >
+          Alternate Dockerfile.
+          Compose will use an alternate file to build with.
+        required: false
       "command":
         desc: >
           Override the default command.
