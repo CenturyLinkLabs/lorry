@@ -46,7 +46,7 @@ describe Validation do
         expect(subject.warnings).to be_an(Array)
       end
 
-      it('returns an array with only Kwalify::ValidationError instances') do
+      it('returns an array with only Lorry::Errors::ComposeValidationWarning instances') do
         expect(subject.warnings).to all(be_an_instance_of Lorry::Errors::ComposeValidationWarning)
       end
     end
