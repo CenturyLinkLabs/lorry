@@ -11,7 +11,7 @@ GEM
     multipart-post (2.0.0)
     octokit (3.2.0)
       sawyer (~> 0.5.3)
-    rack (1.6.0)
+    rack (1.6.12)
     rack-protection (1.5.3)
       rack
     rack-test (0.6.3)
