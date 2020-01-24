@@ -8,6 +8,10 @@ The Lorry project will make creating docker-compose.yml files easier with its us
 
 Once you're done crafting the docker-compose.yml, Lorry makes it simple to save your document as a file, copy it to the clipboard, and even share it with others as a Gist or with a Lorry URL for collaborative editing.
 
+## NOTE
+
+This repo is no longer being maintained. Users are welcome to fork it, but we make no warranty of its functionality.
+
 ## Installation
 The Lorry API is a Ruby application that uses Sinatra
 
