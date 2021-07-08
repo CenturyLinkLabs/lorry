@@ -110,6 +110,15 @@ mapping:
         sequence:
           - type: str
         required: false
+      "container_name":
+        desc: >
+          Specify a custom container name, rather than a generated default name.
+
+          Since Docker container names must be unique, you cannot scale a service beyond 1 container
+          if you have specified a custom name.
+
+          Attempting to do so, results in an error.
+        required: false
       "net":
         name: Net
         desc: >
