@@ -219,3 +219,52 @@ mapping:
         desc: >
           Optional volume driver for the container
         required: false
+      "autodestroy":
+        desc: >
+          Whether the containers for this service should be terminated if they stop (default: no, possible values: no, on-success, always). (Docker Cloud Only)
+        required: false
+      "autoredeploy":
+        desc: >
+          Whether to redeploy the containers of the service when its image is updated in Docker Cloud registry (default: false). (Docker Cloud Only)
+        required: false
+      "cgroup_parent":
+        desc: >
+          Specify an optional parent cgroup for the container. (Docker Cloud Only)
+        required: false
+      "devices":
+        desc: >
+          List of device mappings. Uses the same format as the --device docker client create option. (Docker Cloud Only)
+        required: false
+      "roles":
+        desc: >
+          A list of Docker Cloud API roles to grant the service. The only supported value is global, which creates an environment variable DOCKERCLOUD_AUTH used to authenticate againts Docker Cloud API. (Docker Cloud Only)
+        type: seq
+        sequence:
+          - type: str
+        required: false
+      "security_opt":
+        desc: >
+          Override the default labeling scheme for each container. (Docker Cloud Only)
+        required: false
+      "extra_hosts":
+        desc: >
+          Add hostname mappings. Use the same values as the docker client --add-host parameter. Specify hostname to IP (HOSTNAME:IP). (Docker Cloud Only)
+        type: seq
+        sequence:
+          - type: str
+        required: false
+      "sequential_deployment":
+        desc: >
+          Whether the containers should be launched and scaled in sequence (default: false). (Docker Cloud Only)
+        required: false
+      "tags":
+        desc: >
+          Indicates the deploy tags to select the nodes where containers are created. (Docker Cloud Only)
+        type: seq
+        sequence:
+          - type: str
+        required: false
+      "target_num_containers":
+        desc: >
+          The number of containers to run for this service (default: 1). (Docker Cloud Only)
+        required: false
